@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Tales - Space Weather Adventures</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="A children's learning platform about space weather through interactive stories and games">
+    <meta name="theme-color" content="#1a1a2e">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+    <!-- Mobile Container -->
+    <div class="mobile-container">
+        
+        <!-- Animated Stars Background -->
+        <div class="stars-container">
+            <div class="star star-1"></div>
+            <div class="star star-2"></div>
+            <div class="star star-3"></div>
+            <div class="star star-4"></div>
+            <div class="star star-5"></div>
+            <div class="star star-6"></div>
+            <div class="star star-7"></div>
+            <div class="star star-8"></div>
+            <div class="star star-9"></div>
+            <div class="star star-10"></div>
+        </div>
+
+        <!-- Home Screen -->
+        <div class="screen active" id="home-screen">
+            <div class="home-content">
+                <div class="logo">
+                    <img src="logo.svg" alt="Stellar Tales" class="logo-image mascot-logo">
+                </div>
+                
+                <div class="title-section">
+                    <h2>Choose Your Space Adventure!</h2>
+                    <div class="greeting-texts">
+                        <span class="greeting-text">Ready to explore the cosmos?</span>
+                        <span class="greeting-text">¿Listo para explorar el cosmos?</span>
+                        <span class="greeting-text">মহাকাশ অন্বেষণ করতে প্রস্তুত?</span>
+                    </div>
+                </div>
+
+                <!-- Home Navigation Options -->
+                <div class="home-grid">
+                    <div class="grid-item stories-option" onclick="showScreen('stories-screen')">
+                        <div class="option-icon">📚</div>
+                        <h3>Stories</h3>
+                        <p>Magical space adventures</p>
+                        <div class="notification-badge">2</div>
+                    </div>
+
+                    <div class="grid-item explore-option" onclick="showScreen('dashboard-screen')">
+                        <div class="option-icon">🚀</div>
+                        <h3>Explore Space</h3>
+                        <p>Live space weather data</p>
+                    </div>
+
+                    <div class="grid-item games-option" onclick="showScreen('games-screen')">
+                        <div class="option-icon">🎮</div>
+                        <h3>Play Games</h3>
+                        <p>Interactive space games</p>
+                    </div>
+
+                    <div class="grid-item dashboard-option" onclick="showScreen('dashboard-screen')">
+                        <div class="option-icon">📊</div>
+                        <h3>Dashboard</h3>
+                        <p>Track your progress</p>
+                    </div>
+                </div>
+
+                <div class="alien-mascot">
+                    <!-- CSS-drawn friendly alien -->
+                    <div class="alien">
+                        <div class="alien-body"></div>
+                        <div class="alien-head">
+                            <div class="alien-eye alien-eye-left"></div>
+                            <div class="alien-eye alien-eye-right"></div>
+                            <div class="alien-mouth"></div>
+                        </div>
+                        <div class="alien-antenna alien-antenna-left">
+                            <div class="antenna-tip"></div>
+                        </div>
+                        <div class="alien-antenna alien-antenna-right">
+                            <div class="antenna-tip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div class="screen" id="dashboard-screen">
+            <div class="dashboard-container">
+                <!-- Welcome Header -->
+                <div class="grid-header">
+                    <h2>Your Space Dashboard 🚀</h2>
+                </div>
+
+                <!-- Progress Stats Row -->
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📖</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="completed-stories">0</div>
+                            <div class="stat-label">Stories</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="achievements">0</div>
+                            <div class="stat-label">Badges</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⚡</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="streak-days">0</div>
+                            <div class="stat-label">Streak Days</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="user-coins">100</div>
+                            <div class="stat-label">Coins</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Space Weather -->
+                <div class="grid-weather">
+                    <h3>🌌 Space Weather</h3>
+                    <div class="weather-content">
+                        <div class="weather-display" id="weather-display">
+                            <div class="loading">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="grid-activity">
+                    <h3>📈 Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <span class="activity-icon">📚</span>
+                            <span class="activity-text">Completed "Space Weather 101"</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">🎮</span>
+                            <span class="activity-text">Played Solar Flare Catcher</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">🏆</span>
+                            <span class="activity-text">Earned "Explorer" badge</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid-actions">
+                    <h3>🚀 Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" onclick="showScreen('stories-screen')">
+                            <span class="action-icon">📚</span>
+                            <span class="action-text">Continue Story</span>
+                        </button>
+                        <button class="action-btn secondary" onclick="showScreen('games-screen')">
+                            <span class="action-icon">🎮</span>
+                            <span class="action-text">Play Games</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Learning Progress -->
+                <div class="grid-progress">
+                    <h3>📊 Learning Progress</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-60"></div>
+                        </div>
+                        <span class="progress-text">60% Complete</span>
+                        <div class="progress-topics">
+                            <span class="topic completed">Solar Activity ✓</span>
+                            <span class="topic completed">Magnetic Fields ✓</span>
+                            <span class="topic current">Aurora Formation →</span>
+                            <span class="topic">Space Weather Effects</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stories Screen -->
+        <div class="screen" id="stories-screen">
+            <div class="stories-content">
+                <div class="screen-header">
+                    <h2>Space Weather Stories 📖</h2>
+                </div>
+
+                <div class="story-cards">
+                    <div class="story-card" onclick="openStoryModal('space-weather')">
+                        <div class="story-illustration">
+                            <div class="story-sun">
+                                <div class="sun-face">
+                                    <div class="sun-eye sun-eye-left"></div>
+                                    <div class="sun-eye sun-eye-right"></div>
+                                    <div class="sun-mouth"></div>
+                                </div>
+                                <div class="solar-flare"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>What is Space Weather?</h3>
+                            <p>Discover the sun's amazing power!</p>
+                        </div>
+                    </div>
+
+                    <div class="story-card" onclick="openStoryModal('magnetic-field')">
+                        <div class="story-illustration">
+                            <div class="story-earth-magnetic">
+                                <div class="earth-core"></div>
+                                <div class="magnetic-lines"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>Earth's Magnetic Shield</h3>
+                            <p>How Earth protects us from space!</p>
+                        </div>
+                    </div>
+
+                    <div class="story-card coming-soon">
+                        <div class="story-illustration">
+                            <div class="story-aurora">
+                                <div class="aurora-lights"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>Dancing Northern Lights</h3>
+                            <p>Coming soon! ✨</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games Screen -->
+        <div class="screen" id="games-screen">
+            <div class="games-content">
+                <div class="screen-header">
+                    <h2>Space Weather Games 🎮</h2>
+                </div>
+
+                <div class="game-cards">
+                    <div class="game-card">
+                        <div class="game-illustration">
+                            <div class="solar-flare-game">
+                                <div class="game-sun">
+                                    <div class="game-sun-face">
+                                        <div class="game-sun-eye game-sun-eye-left"></div>
+                                        <div class="game-sun-eye game-sun-eye-right"></div>
+                                        <div class="game-sun-mouth"></div>
+                                    </div>
+                                </div>
+                                <div class="flare-particles">
+                                    <div class="particle"></div>
+                                    <div class="particle"></div>
+                                    <div class="particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <h3>Catch the Solar Flare</h3>
+                            <p>Help protect Earth from solar storms!</p>
+                            <button class="play-btn" onclick="startGame('solar-flare')">Play Now</button>
+                        </div>
+                    </div>
+
+                    <div class="game-card coming-soon">
+                        <div class="game-illustration">
+                            <div class="magnetic-field-game">
+                                <div class="game-earth"></div>
+                                <div class="game-magnetic-field"></div>
+                            </div>
+                        </div>
+                        <div class="game-info">
+                            <h3>Magnetic Field Builder</h3>
+                            <p>Coming soon! Build Earth's shield! 🛡️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="showScreen('home-screen')" data-screen="home-screen">
+                <div class="nav-icon">🏠</div>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('stories-screen')" data-screen="stories-screen">
+                <div class="nav-icon">📚</div>
+                <span>Stories</span>
+                <div class="nav-badge">2</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('games-screen')" data-screen="games-screen">
+                <div class="nav-icon">🎮</div>
+                <span>Games</span>
+            </div>
+            <div class="nav-item" onclick="showScreen('dashboard-screen')" data-screen="dashboard-screen">
+                <div class="nav-icon">🚀</div>
+                <span>Dashboard</span>
+            </div>
+        </nav>
+
+        <!-- Story Modal -->
+        <div class="modal" id="story-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Story Title</h3>
+                    <button class="close-btn" onclick="closeStoryModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-story-content">
+                        <!-- Story content will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" onclick="closeStoryModal()">Got it! 🌟</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Modal (placeholder) -->
+        <div class="modal" id="game-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Solar Flare Game</h3>
+                    <button class="close-btn" onclick="closeGameModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="game-placeholder">
+                        <p>🚀 Game coming soon!</p>
+                        <p>Get ready to catch solar particles and protect Earth!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" onclick="closeGameModal()">Awesome! ⭐</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div class="modal" id="login-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🚀 Join the Space Adventure!</h3>
+                    <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="login-form">
+                        <div class="character-preview">
+                            <div class="selected-character" id="preview-character">
+                                <div class="character-avatar astronaut"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">Space Explorer Name:</label>
+                            <input type="text" id="username" placeholder="Enter your space name" maxlength="20">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Age:</label>
+                            <select id="age">
+                                <option value="">Select age</option>
+                                <option value="6-8">6-8 years</option>
+                                <option value="9-11">9-11 years</option>
+                                <option value="12-14">12-14 years</option>
+                                <option value="15+">15+ years</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="language">Preferred Language:</label>
+                            <select id="language">
+                                <option value="en">English 🇺🇸</option>
+                                <option value="es">Español 🇪🇸</option>
+                                <option value="bn">বাংলা 🇧🇩</option>
+                                <option value="hi">हिंदी 🇮🇳</option>
+                                <option value="fr">Français 🇫🇷</option>
+                            </select>
+                        </div>
+                        
+                        <div class="character-selection">
+                            <label>Choose Your Character:</label>
+                            <div class="character-options">
+                                <div class="character-option active" data-character="astronaut" onclick="selectCharacter('astronaut')">
+                                    <div class="character-avatar astronaut"></div>
+                                    <span>Astronaut</span>
+                                </div>
+                                <div class="character-option" data-character="alien" onclick="selectCharacter('alien')">
+                                    <div class="character-avatar alien"></div>
+                                    <span>Cosmic Friend</span>
+                                </div>
+                                <div class="character-option" data-character="robot" onclick="selectCharacter('robot')">
+                                    <div class="character-avatar robot"></div>
+                                    <span>Space Robot</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" onclick="createProfile()" id="create-profile-btn" disabled>
+                        Start Adventure! 🌟
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Onboarding Modal -->
+        <div class="modal" id="onboarding-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🌟 Welcome to Space Weather!</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="onboarding-content">
+                        <div class="knowledge-check" id="knowledge-check">
+                            <h4>Quick Knowledge Check! 🧠</h4>
+                            <p>Help us customize your adventure:</p>
+                            
+                            <div class="quiz-question">
+                                <p><strong>What do you think causes the Northern Lights?</strong></p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="q1" value="beginner"> Magic in the sky ✨</label>
+                                    <label><input type="radio" name="q1" value="intermediate"> Solar particles hitting Earth's atmosphere 🌌</label>
+                                    <label><input type="radio" name="q1" value="advanced"> Interaction between solar wind and Earth's magnetosphere 🔬</label>
+                                </div>
+                            </div>
+                            
+                            <div class="quiz-question">
+                                <p><strong>Have you heard of space weather before?</strong></p>
+                                <div class="quiz-options">
+                                    <label><input type="radio" name="q2" value="beginner"> Never heard of it 🤔</label>
+                                    <label><input type="radio" name="q2" value="intermediate"> I've heard a little bit 📚</label>
+                                    <label><input type="radio" name="q2" value="advanced"> I know quite a bit! 🚀</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="onboarding-result hidden" id="onboarding-result">
+                            <div class="level-badge">
+                                <span id="user-level">Beginner Explorer</span>
+                            </div>
+                            <p id="level-description">Perfect! We'll start with the basics and build up your space knowledge.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn" onclick="completeOnboarding()" id="complete-onboarding-btn" disabled>
+                        Continue Adventure! 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Display -->
+        <!-- Avatar Profile Menu -->
+        <div class="avatar-profile" id="avatar-profile">
+            <button class="avatar-btn" id="avatar-btn" onclick="toggleAvatarMenu()" title="User Profile Menu">
+                <div class="avatar-image" id="user-avatar"></div>
+                <div class="avatar-status"></div>
+            </button>
+            <div class="avatar-menu" id="avatar-menu">
+                <div class="avatar-menu-header">
+                    <div class="menu-avatar">
+                        <div class="character-avatar" id="menu-user-avatar"></div>
+                    </div>
+                    <div class="menu-user-info">
+                        <span class="menu-username" id="menu-username">Explorer</span>
+                        <span class="menu-level" id="menu-level">Level 1</span>
+                    </div>
+                </div>
+                <div class="avatar-menu-stats">
+                    <div class="menu-stat">
+                        <span class="menu-stat-icon">🪙</span>
+                        <span class="menu-stat-label">Coins</span>
+                        <span class="menu-stat-value" id="menu-coins">100</span>
+                    </div>
+                    <div class="menu-stat">
+                        <span class="menu-stat-icon">📖</span>
+                        <span class="menu-stat-label">Stories</span>
+                        <span class="menu-stat-value" id="menu-stories">0</span>
+                    </div>
+                    <div class="menu-stat">
+                        <span class="menu-stat-icon">🏆</span>
+                        <span class="menu-stat-label">Badges</span>
+                        <span class="menu-stat-value" id="menu-badges">0</span>
+                    </div>
+                </div>
+                <div class="avatar-menu-actions">
+                    <button class="menu-action-btn settings-btn" onclick="openSettingsModal()">
+                        <span class="menu-action-icon">⚙️</span>
+                        <span>Settings</span>
+                    </button>
+                    <button class="menu-action-btn logout-btn" onclick="logout()">
+                        <span class="menu-action-icon">🚪</span>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="language-switcher">
+            <button class="lang-btn" onclick="toggleLanguageMenu()">
+                <span id="current-lang-flag">🇺🇸</span>
+                <span id="current-lang-code">EN</span>
+            </button>
+            <div class="lang-menu" id="lang-menu">
+                <div class="lang-option" onclick="switchLanguage('en')">🇺🇸 English</div>
+                <div class="lang-option" onclick="switchLanguage('es')">🇪🇸 Español</div>
+                <div class="lang-option" onclick="switchLanguage('bn')">🇧🇩 বাংলা</div>
+                <div class="lang-option" onclick="switchLanguage('hi')">🇮🇳 हिंदी</div>
+                <div class="lang-option" onclick="switchLanguage('fr')">🇫🇷 Français</div>
+            </div>
+        </div>
+
+        <!-- Coin Display -->
+        <div class="coin-display hidden" id="coin-display">
+            <div class="coin-counter">
+                <span class="coin-icon">🪙</span>
+                <span class="coin-amount" id="coin-amount">100</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
