@@ -10,6 +10,50 @@ let userCoins = 100;
 let speechSynthesis = window.speechSynthesis;
 let currentUtterance = null;
 
+// ===== SPACE WEATHER TRIVIA DATA =====
+const spaceWeatherTrivia = [
+    {
+        title: "Solar Flares & Communication",
+        fact: "Solar flares are intense bursts of radiation from the Sun that can interfere with radio communications and GPS signals on Earth."
+    },
+    {
+        title: "Northern Lights",
+        fact: "The beautiful auroras are caused by charged particles from the Sun interacting with Earth's magnetic field and atmosphere."
+    },
+    {
+        title: "Power Grid Impact",
+        fact: "Severe space weather events can induce currents in power lines, potentially leading to electrical outages."
+    },
+    {
+        title: "Satellite Vulnerability",
+        fact: "Satellites in orbit are susceptible to damage from space weather phenomena, affecting their operation and longevity."
+    },
+    {
+        title: "Astronaut Radiation Risks",
+        fact: "Astronauts outside Earth's protective atmosphere are exposed to higher radiation levels during space weather events."
+    },
+    {
+        title: "Solar Wind",
+        fact: "The continuous flow of charged particles from the Sun, known as solar wind, influences space weather conditions around Earth."
+    },
+    {
+        title: "Space Weather Prediction",
+        fact: "Scientists monitor the Sun's activity to predict space weather events and mitigate their impact on technology."
+    },
+    {
+        title: "Cosmic Rays",
+        fact: "High-energy particles from space, called cosmic rays, can be influenced by solar activity and affect space weather."
+    },
+    {
+        title: "Geomagnetic Storms",
+        fact: "Disturbances in Earth's magnetic field, known as geomagnetic storms, can impact navigation systems and power grids."
+    },
+    {
+        title: "Space Weather Monitoring",
+        fact: "NASA continuously monitors space weather to protect satellites, astronauts, and ground-based technologies."
+    }
+];
+
 // ===== USER DATA MANAGEMENT =====
 class UserManager {
     constructor() {
@@ -24,7 +68,7 @@ class UserManager {
             currentLanguage = this.userData.language || 'en';
             userCoins = this.userData.coins || 100;
             this.showUserProfile();
-            this.updateLanguageUI();
+            updateLanguageUI();
         } else {
             // Show login modal for new users
             setTimeout(() => this.showLoginModal(), 1000);
@@ -86,23 +130,13 @@ class UserManager {
 
     showUserProfile() {
         const avatarProfile = document.getElementById('avatar-profile');
-        const coinDisplay = document.getElementById('coin-display');
         
         if (currentUser && avatarProfile) {
             // Update avatar button
             document.getElementById('user-avatar').textContent = currentUser.character || '🧑‍🚀';
             
-            // Update coin display if exists
-            if (document.getElementById('coin-amount')) {
-                document.getElementById('coin-amount').textContent = currentUser.coins || 100;
-            }
-            
             // Show avatar profile
             avatarProfile.style.display = 'block';
-            if (coinDisplay) {
-                coinDisplay.classList.remove('hidden');
-                coinDisplay.style.display = 'block';
-            }
             
             // Update avatar menu data
             updateAvatarMenuData();
@@ -132,7 +166,7 @@ class UserManager {
             
             this.closeLoginModal();
             this.showUserProfile();
-            this.updateLanguageUI();
+            updateLanguageUI();
             
             // Show onboarding for new users
             setTimeout(() => this.showOnboarding(), 500);
@@ -216,7 +250,7 @@ class UserManager {
         if (currentUser) {
             currentUser.coins = (currentUser.coins || 0) + amount;
             this.saveUserData(currentUser);
-            this.updateCoinDisplay();
+            this.updateUserCoins();
             
             if (reason) {
                 this.showCoinNotification(amount, reason);
@@ -228,14 +262,14 @@ class UserManager {
         if (currentUser && currentUser.coins >= amount) {
             currentUser.coins -= amount;
             this.saveUserData(currentUser);
-            this.updateCoinDisplay();
+            this.updateUserCoins();
             return true;
         }
         return false;
     }
 
-    updateCoinDisplay() {
-        document.getElementById('coin-amount').textContent = currentUser.coins || 0;
+    updateUserCoins() {
+        // Update only the dashboard and menu displays
         document.getElementById('user-coins').textContent = currentUser.coins || 0;
     }
 
@@ -293,6 +327,7 @@ const translations = {
         getStarted: "Get Started",
         home: "Home",
         stories: "Stories",
+        wiki: "Wiki",
         games: "Games",
         dashboard: "Dashboard",
         welcome: "Welcome, Space Explorer! 🚀",
@@ -312,6 +347,7 @@ const translations = {
         getStarted: "Comenzar",
         home: "Inicio",
         stories: "Cuentos",
+        wiki: "Wiki",
         games: "Juegos",
         dashboard: "Panel",
         welcome: "¡Bienvenido, Explorador Espacial! 🚀",
@@ -331,6 +367,7 @@ const translations = {
         getStarted: "শুরু করি",
         home: "হোম",
         stories: "গল্প",
+        wiki: "উইকি",
         games: "খেলা",
         dashboard: "ড্যাশবোর্ড",
         welcome: "স্বাগতম, মহাকাশ অভিযাত্রী! 🚀",
@@ -350,6 +387,7 @@ const translations = {
         getStarted: "शुरू करें",
         home: "होम",
         stories: "कहानियां",
+        wiki: "विकी",
         games: "खेल",
         dashboard: "डैशबोर्ड",
         welcome: "स्वागत है, अंतरिक्ष खोजकर्ता! 🚀",
@@ -369,6 +407,7 @@ const translations = {
         getStarted: "Commencer",
         home: "Accueil",
         stories: "Histoires",
+        wiki: "Wiki",
         games: "Jeux",
         dashboard: "Tableau de bord",
         welcome: "Bienvenue, Explorateur Spatial! 🚀",
@@ -384,7 +423,13 @@ const translations = {
 };
 
 function updateLanguageUI() {
+    console.log('🌐 Updating UI for language:', currentLanguage);
     const t = translations[currentLanguage];
+    
+    if (!t) {
+        console.error('🌐 No translations found for language:', currentLanguage);
+        return;
+    }
     
     // Update main UI elements
     if (document.querySelector('.logo h1')) {
@@ -405,11 +450,12 @@ function updateLanguageUI() {
     
     // Update navigation
     const navItems = document.querySelectorAll('.nav-item span');
-    if (navItems.length >= 4) {
+    if (navItems.length >= 5) {
         navItems[0].textContent = t.home;
         navItems[1].textContent = t.stories;
-        navItems[2].textContent = t.games;
-        navItems[3].textContent = t.dashboard;
+        navItems[2].textContent = t.wiki || "Wiki";
+        navItems[3].textContent = t.games;
+        navItems[4].textContent = t.dashboard;
     }
     
     // Update welcome section
@@ -743,6 +789,44 @@ function openStoryModal(storyKey) {
     }
 }
 
+// ===== SPACE WEATHER TRIVIA FUNCTIONS =====
+function loadRandomTrivia() {
+    const triviaTitle = document.getElementById('trivia-title');
+    const triviaText = document.getElementById('trivia-text');
+    
+    if (!triviaTitle || !triviaText) return;
+    
+    // Add loading state without changing layout
+    triviaText.textContent = 'Loading space weather facts...';
+    triviaText.style.opacity = '0.7';
+    
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+        // Get random trivia
+        const randomIndex = Math.floor(Math.random() * spaceWeatherTrivia.length);
+        const selectedTrivia = spaceWeatherTrivia[randomIndex];
+        
+        // Update content smoothly
+        triviaTitle.textContent = selectedTrivia.title;
+        triviaText.textContent = selectedTrivia.fact;
+        triviaText.style.opacity = '1';
+        
+        console.log('🌌 Loaded new space weather trivia:', selectedTrivia.title);
+    }, 300);
+}
+
+function initializeTrivia() {
+    // Load initial trivia when the page loads
+    loadRandomTrivia();
+    
+    // Set up auto-refresh every 30 seconds (optional)
+    setInterval(() => {
+        if (currentScreen === 'home-screen') {
+            loadRandomTrivia();
+        }
+    }, 30000);
+}
+
 // ===== DOM READY INITIALIZATION =====
 let userManager;
 let speechManager;
@@ -751,6 +835,12 @@ let spaceWeatherAPI;
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🌟 Stellar Tales Enhanced initialized!');
     
+    // Check if language switcher elements exist
+    const langBtn = document.querySelector('.lang-btn');
+    const langMenu = document.getElementById('lang-menu');
+    console.log('🌐 Language button found:', !!langBtn);
+    console.log('🌐 Language menu found:', !!langMenu);
+    
     // Initialize managers
     userManager = new UserManager();
     speechManager = new SpeechManager();
@@ -758,6 +848,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up initial screen
     showScreen('home-screen');
+    
+    // Initialize trivia system
+    initializeTrivia();
     
     // Add click handlers for closing modals when clicking outside
     document.addEventListener('click', handleOutsideClick);
@@ -795,13 +888,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (userProfile && userProfile.style.display === 'none') {
             userProfile.classList.add('hidden');
             userProfile.style.display = '';
-        }
-        
-        // Fix coin display
-        const coinDisplay = document.getElementById('coin-display');
-        if (coinDisplay && coinDisplay.style.display === 'none') {
-            coinDisplay.classList.add('hidden');
-            coinDisplay.style.display = '';
         }
     }, 100);
 });
@@ -954,24 +1040,37 @@ function openSettingsModal() {
 
 // ===== LANGUAGE MANAGEMENT =====
 function toggleLanguageMenu() {
+    console.log('🌐 Toggle language menu clicked');
     const langMenu = document.getElementById('lang-menu');
-    langMenu.classList.toggle('active');
+    if (langMenu) {
+        langMenu.classList.toggle('active');
+        console.log('🌐 Language menu toggled, active class:', langMenu.classList.contains('active'));
+    } else {
+        console.error('🌐 Language menu element not found!');
+    }
 }
 
 function switchLanguage(newLang) {
+    console.log('🌐 Switching language to:', newLang);
     currentLanguage = newLang;
     
     // Update user data if logged in
-    if (currentUser) {
+    if (currentUser && userManager) {
         currentUser.language = newLang;
         userManager.saveUserData(currentUser);
+        console.log('🌐 User data updated with new language');
     }
     
     // Update UI
     updateLanguageUI();
+    console.log('🌐 UI updated with new language');
     
     // Close language menu
-    document.getElementById('lang-menu').classList.remove('active');
+    const langMenu = document.getElementById('lang-menu');
+    if (langMenu) {
+        langMenu.classList.remove('active');
+        console.log('🌐 Language menu closed');
+    }
     
     console.log(`🌐 Language switched to: ${newLang}`);
 }
@@ -1352,6 +1451,10 @@ function handleKeyDown(event) {
             break;
         
         case '3':
+            if (!isModalOpen) showScreen('wiki-screen');
+            break;
+        
+        case '4':
             if (!isModalOpen) showScreen('games-screen');
             break;
     }

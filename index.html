@@ -35,45 +35,34 @@
         <div class="screen active" id="home-screen">
             <div class="home-content">
                 <div class="logo">
-                    <img src="logo.svg" alt="Stellar Tales" class="logo-image mascot-logo">
+                    <img src="logo.svg" class="logo-image mascot-logo">
                 </div>
                 
                 <div class="title-section">
-                    <h2>Choose Your Space Adventure!</h2>
+                    <h2>Space Weather Trivia</h2>
                     <div class="greeting-texts">
-                        <span class="greeting-text">Ready to explore the cosmos?</span>
-                        <span class="greeting-text">¿Listo para explorar el cosmos?</span>
-                        <span class="greeting-text">মহাকাশ অন্বেষণ করতে প্রস্তুত?</span>
+                        <span class="greeting-text">Learn something new about space!</span>
                     </div>
                 </div>
 
-                <!-- Home Navigation Options -->
-                <div class="home-grid">
-                    <div class="grid-item stories-option" onclick="showScreen('stories-screen')">
-                        <div class="option-icon">📚</div>
-                        <h3>Stories</h3>
-                        <p>Magical space adventures</p>
-                        <div class="notification-badge">2</div>
-                    </div>
-
-                    <div class="grid-item explore-option" onclick="showScreen('dashboard-screen')">
-                        <div class="option-icon">🚀</div>
-                        <h3>Explore Space</h3>
-                        <p>Live space weather data</p>
-                    </div>
-
-                    <div class="grid-item games-option" onclick="showScreen('games-screen')">
-                        <div class="option-icon">🎮</div>
-                        <h3>Play Games</h3>
-                        <p>Interactive space games</p>
-                    </div>
-
-                    <div class="grid-item dashboard-option" onclick="showScreen('dashboard-screen')">
-                        <div class="option-icon">📊</div>
-                        <h3>Dashboard</h3>
-                        <p>Track your progress</p>
+                <!-- Space Weather Trivia Section -->
+                <div class="trivia-section">
+                    <div class="trivia-card">
+                        <div class="trivia-icon">🌌</div>
+                        <div class="trivia-content">
+                            <h3 id="trivia-title">Space Weather Fact</h3>
+                            <p id="trivia-text">Loading space weather facts...</p>
+                            <div class="trivia-footer">
+                                <button class="refresh-trivia-btn" onclick="loadRandomTrivia()">
+                                    <span class="refresh-icon">🔄</span>
+                                    New Fact
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+             
 
                 <div class="alien-mascot">
                     <!-- CSS-drawn friendly alien -->
@@ -251,6 +240,59 @@
             </div>
         </div>
 
+        <!-- Wiki Screen -->
+        <div class="screen" id="wiki-screen">
+            <div class="stories-content">
+                <div class="screen-header">
+                    <h2>Space Weather Wiki 📚</h2>
+                </div>
+
+                <div class="story-cards">
+                    <div class="story-card" onclick="openStoryModal('space-weather')">
+                        <div class="story-illustration">
+                            <div class="story-sun">
+                                <div class="sun-face">
+                                    <div class="sun-eye sun-eye-left"></div>
+                                    <div class="sun-eye sun-eye-right"></div>
+                                    <div class="sun-mouth"></div>
+                                </div>
+                                <div class="solar-flare"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>What is Space Weather?</h3>
+                            <p>Discover the sun's amazing power!</p>
+                        </div>
+                    </div>
+
+                    <div class="story-card" onclick="openStoryModal('magnetic-field')">
+                        <div class="story-illustration">
+                            <div class="story-earth-magnetic">
+                                <div class="earth-core"></div>
+                                <div class="magnetic-lines"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>Earth's Magnetic Shield</h3>
+                            <p>How Earth protects us from space!</p>
+                        </div>
+                    </div>
+
+                    <div class="story-card coming-soon">
+                        <div class="story-illustration">
+                            <div class="story-aurora">
+                                <div class="aurora-lights"></div>
+                            </div>
+                        </div>
+                        <div class="story-info">
+                            <h3>Dancing Northern Lights</h3>
+                            <p>Coming soon! ✨</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Games Screen -->
         <div class="screen" id="games-screen">
             <div class="games-content">
@@ -309,6 +351,10 @@
                 <div class="nav-icon">📚</div>
                 <span>Stories</span>
                 <div class="nav-badge">2</div>
+            </div>
+            <div class="nav-item" onclick="showScreen('wiki-screen')" data-screen="wiki-screen">
+                <div class="nav-icon">📖</div>
+                <span>Wiki</span>
             </div>
             <div class="nav-item" onclick="showScreen('games-screen')" data-screen="games-screen">
                 <div class="nav-icon">🎮</div>
@@ -532,14 +578,6 @@
                 <div class="lang-option" onclick="switchLanguage('bn')">🇧🇩 বাংলা</div>
                 <div class="lang-option" onclick="switchLanguage('hi')">🇮🇳 हिंदी</div>
                 <div class="lang-option" onclick="switchLanguage('fr')">🇫🇷 Français</div>
-            </div>
-        </div>
-
-        <!-- Coin Display -->
-        <div class="coin-display hidden" id="coin-display">
-            <div class="coin-counter">
-                <span class="coin-icon">🪙</span>
-                <span class="coin-amount" id="coin-amount">100</span>
             </div>
         </div>
 
